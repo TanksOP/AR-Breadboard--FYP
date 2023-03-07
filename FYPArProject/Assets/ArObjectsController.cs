@@ -11,9 +11,11 @@ public class ArObjectsController : MonoBehaviour
     [SerializeField] GameObject cube;
     [SerializeField] GameObject sphere;
 
+   
+
     private void Awake()
     {
-        ARTrackedImageManager = GetComponent<ARTrackedImageManager>();
+        
         ARTrackedImageManager.trackedImagePrefab = sphere;
     }
     // Update is called once per frame
@@ -25,6 +27,7 @@ public class ArObjectsController : MonoBehaviour
     public void changeToCube()
     {
         ARTrackedImageManager.trackedImagePrefab = cube;
+        
     }
     public void changeToSphere()
     {
