@@ -78,6 +78,13 @@ public class ARController : MonoBehaviour
             Resistor.SetActive(true);
             Button.SetActive(false);
         }
+        else if (CurrentStep == 4)
+        {
+            breadBoard.SetActive(true);
+            LED.SetActive(true);
+            Resistor.SetActive(true);
+            Button.SetActive(true);
+        }
     }
 
     public void AnimationButton()
@@ -119,7 +126,21 @@ public class ARController : MonoBehaviour
                 Resistor.GetComponent<Animator>().SetTrigger("Replay");
                 Resistor.GetComponent<Animator>().SetTrigger("Play");
             }
-
+        }
+        else if (CurrentStep == 4)
+        {
+            // Resistor Animations
+            if (!Button.GetComponent<Animator>().GetBool("Played"))
+            {
+                Button.GetComponent<Animator>().SetTrigger("Play");
+                Button.GetComponent<Animator>().SetBool("Played", true);
+                PlayButtonText.text = "Replay Step";
+            }
+            else
+            {
+                Button.GetComponent<Animator>().SetTrigger("Replay");
+                Button.GetComponent<Animator>().SetTrigger("Play");
+            }
         }
     }
 
@@ -146,6 +167,16 @@ public class ARController : MonoBehaviour
             }
         }
 
+        else if (CurrentStep == 4)
+        {
+            // if the animation of the last step not played 
+            if (!Button.GetComponent<Animator>().GetBool("Played"))
+            {
+                Button.GetComponent<Animator>().SetTrigger("Skipped");
+                Button.GetComponent<Animator>().SetBool("Played", true);
+            }
+        }
+
         PlayButtonText.text = "Play Step";
         CurrentStep++;
 
@@ -166,6 +197,11 @@ public class ARController : MonoBehaviour
         {
             Resistor.GetComponent<Animator>().SetTrigger("Replay");
             Resistor.GetComponent<Animator>().SetBool("Played", false);
+        }
+        else if (CurrentStep == 4)
+        {
+            Button.GetComponent<Animator>().SetTrigger("Replay");
+            Button.GetComponent<Animator>().SetBool("Played", false);
         }
 
 
