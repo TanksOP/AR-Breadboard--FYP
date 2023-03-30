@@ -7,33 +7,44 @@ public class ARController : MonoBehaviour
 {
 
     GameObject TrackedObject;
-    [SerializeField] TextMeshProUGUI PlayButtonText;
+    
     // Start is called before the first frame update
     private float CurrentStep = 1;
     bool GotComponents = false;
 
     
-
+    // the breadborad componats
     GameObject breadBoard;
     GameObject LED;
     GameObject Resistor;
     GameObject Button;
+    GameObject Wire1;
+    GameObject Wire2;
+    GameObject Wire3;
 
+
+    // the ui componants
+    [SerializeField] TextMeshProUGUI PlayButtonText;
+    [SerializeField] GameObject ARStartScreen;
+    [SerializeField] GameObject AREndScreen;
     private void Awake()
     {
         GotComponents = false;
+        AREndScreen.SetActive(false);
     }
     // Update is called once per frame
     void FixedUpdate()
     {
         if (TrackedObject == null)
         {
+            ARStartScreen.SetActive(true);
             TrackedObject = GameObject.FindGameObjectWithTag("TrackedItem");
         }
         else
         {
             if (!GotComponents)
             {
+                ARStartScreen.SetActive(false);
                 GetComponants();
             }
             ContolARComponants();
@@ -47,6 +58,9 @@ public class ARController : MonoBehaviour
         LED = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         Resistor = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject;
         Button = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(3).gameObject;
+        Wire1 = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject;
+        Wire2 = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(5).gameObject;
+        Wire3 = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(6).gameObject;
     }
 
     void ContolARComponants()
@@ -55,46 +69,95 @@ public class ARController : MonoBehaviour
         // works out which stuff to display
 
 
-        // Add LED
+        // EmptyBreadboard
         if (CurrentStep == 1)
         {
             breadBoard.SetActive(true);
             LED.SetActive(false);
             Resistor.SetActive(false);
             Button.SetActive(false);
+            Wire1.SetActive(false);
+            Wire2.SetActive(false);
+            Wire3.SetActive(false);
         }
-        // Add Button
+        // Add LED
         else if (CurrentStep == 2)
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
             Resistor.SetActive(false);
             Button.SetActive(false);
+            Wire1.SetActive(false);
+            Wire2.SetActive(false);
+            Wire3.SetActive(false);
         }
+        // Add resistor
         else if (CurrentStep == 3)
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
             Resistor.SetActive(true);
             Button.SetActive(false);
+            Wire1.SetActive(false);
+            Wire2.SetActive(false);
+            Wire3.SetActive(false);
         }
+        // Add Button
         else if (CurrentStep == 4)
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
             Resistor.SetActive(true);
             Button.SetActive(true);
+            Wire1.SetActive(false);
+            Wire2.SetActive(false);
+            Wire3.SetActive(false);
         }
+        // Add Wire1
+        else if (CurrentStep == 5)
+        {
+            breadBoard.SetActive(true);
+            LED.SetActive(true);
+            Resistor.SetActive(true);
+            Button.SetActive(true);
+            Wire1.SetActive(true);
+            Wire2.SetActive(false);
+            Wire3.SetActive(false);
+        }
+        // Add Wire2
+        else if (CurrentStep == 6)
+        {
+            breadBoard.SetActive(true);
+            LED.SetActive(true);
+            Resistor.SetActive(true);
+            Button.SetActive(true);
+            Wire1.SetActive(true);
+            Wire2.SetActive(true);
+            Wire3.SetActive(false);
+        }
+        // Add Wire3
+        else if (CurrentStep == 7)
+        {
+            breadBoard.SetActive(true);
+            LED.SetActive(true);
+            Resistor.SetActive(true);
+            Button.SetActive(true);
+            Wire1.SetActive(true);
+            Wire2.SetActive(true);
+            Wire3.SetActive(true);
+        }
+
+
     }
 
     public void AnimationButton()
     {
-        // Add LED
+        
         if (CurrentStep == 1)
         {
             
         }
-        // Add Button
+        
         else if (CurrentStep == 2)
         {            
             // LED Animations
@@ -129,7 +192,7 @@ public class ARController : MonoBehaviour
         }
         else if (CurrentStep == 4)
         {
-            // Resistor Animations
+            // Button Animations
             if (!Button.GetComponent<Animator>().GetBool("Played"))
             {
                 Button.GetComponent<Animator>().SetTrigger("Play");
@@ -140,6 +203,54 @@ public class ARController : MonoBehaviour
             {
                 Button.GetComponent<Animator>().SetTrigger("Replay");
                 Button.GetComponent<Animator>().SetTrigger("Play");
+            }
+        }
+
+        else if (CurrentStep == 5)
+        {
+            // Wire1 Animations
+            if (!Wire1.GetComponent<Animator>().GetBool("Played"))
+            {
+                Wire1.GetComponent<Animator>().SetTrigger("Play");
+                Wire1.GetComponent<Animator>().SetBool("Played", true);
+                PlayButtonText.text = "Replay Step";
+            }
+            else
+            {
+                Wire1.GetComponent<Animator>().SetTrigger("Replay");
+                Wire1.GetComponent<Animator>().SetTrigger("Play");
+            }
+        }
+
+        else if (CurrentStep == 6)
+        {
+            // Wire2 Animations
+            if (!Wire2.GetComponent<Animator>().GetBool("Played"))
+            {
+                Wire2.GetComponent<Animator>().SetTrigger("Play");
+                Wire2.GetComponent<Animator>().SetBool("Played", true);
+                PlayButtonText.text = "Replay Step";
+            }
+            else
+            {
+                Wire2.GetComponent<Animator>().SetTrigger("Replay");
+                Wire2.GetComponent<Animator>().SetTrigger("Play");
+            }
+        }
+
+        else if (CurrentStep == 7)
+        {
+            // Wire1 Animations
+            if (!Wire3.GetComponent<Animator>().GetBool("Played"))
+            {
+                Wire3.GetComponent<Animator>().SetTrigger("Play");
+                Wire3.GetComponent<Animator>().SetBool("Played", true);
+                PlayButtonText.text = "Replay Step";
+            }
+            else
+            {
+                Wire3.GetComponent<Animator>().SetTrigger("Replay");
+                Wire3.GetComponent<Animator>().SetTrigger("Play");
             }
         }
     }
@@ -176,6 +287,37 @@ public class ARController : MonoBehaviour
                 Button.GetComponent<Animator>().SetBool("Played", true);
             }
         }
+        else if (CurrentStep == 5)
+        {
+            // if the animation of the last step not played 
+            if (!Wire1.GetComponent<Animator>().GetBool("Played"))
+            {
+                Wire1.GetComponent<Animator>().SetTrigger("Skipped");
+                Wire1.GetComponent<Animator>().SetBool("Played", true);
+            }
+        }
+
+        else if (CurrentStep == 6)
+        {
+            // if the animation of the last step not played 
+            if (!Wire2.GetComponent<Animator>().GetBool("Played"))
+            {
+                Wire2.GetComponent<Animator>().SetTrigger("Skipped");
+                Wire2.GetComponent<Animator>().SetBool("Played", true);
+            }
+        }
+
+        else if (CurrentStep == 7)
+        {
+            // if the animation of the last step not played 
+            if (!Wire3.GetComponent<Animator>().GetBool("Played"))
+            {
+                Wire3.GetComponent<Animator>().SetTrigger("Skipped");
+                Wire3.GetComponent<Animator>().SetBool("Played", true);
+            }
+            AREndScreen.SetActive(true);
+        }
+        
 
         PlayButtonText.text = "Play Step";
         CurrentStep++;
@@ -203,8 +345,21 @@ public class ARController : MonoBehaviour
             Button.GetComponent<Animator>().SetTrigger("Replay");
             Button.GetComponent<Animator>().SetBool("Played", false);
         }
-
-
-
+        else if (CurrentStep == 5)
+        {
+            Wire1.GetComponent<Animator>().SetTrigger("Replay");
+            Wire1.GetComponent<Animator>().SetBool("Played", false);
+        }
+        else if (CurrentStep == 6)
+        {
+            Wire2.GetComponent<Animator>().SetTrigger("Replay");
+            Wire2.GetComponent<Animator>().SetBool("Played", false);
+        }
+        else if (CurrentStep == 7)
+        {
+            Wire3.GetComponent<Animator>().SetTrigger("Replay");
+            Wire3.GetComponent<Animator>().SetBool("Played", false);
+            AREndScreen.SetActive(false);
+        }
     }
 }
