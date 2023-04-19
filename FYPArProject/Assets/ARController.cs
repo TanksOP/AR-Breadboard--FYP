@@ -16,6 +16,7 @@ public class ARController : MonoBehaviour
     // the breadborad componats
     GameObject breadBoard;
     GameObject LED;
+    GameObject LEDLight;
     GameObject Resistor;
     GameObject Button;
     GameObject Wire1;
@@ -56,6 +57,7 @@ public class ARController : MonoBehaviour
         GotComponents = true;
         breadBoard = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         LED = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+        LEDLight = LED.transform.GetChild(0).gameObject;
         Resistor = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject;
         Button = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(3).gameObject;
         Wire1 = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(4).gameObject;
@@ -74,6 +76,7 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(false);
+            LEDLight.SetActive(false);
             Resistor.SetActive(false);
             Button.SetActive(false);
             Wire1.SetActive(false);
@@ -85,6 +88,7 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
+            LEDLight.SetActive(false);
             Resistor.SetActive(false);
             Button.SetActive(false);
             Wire1.SetActive(false);
@@ -96,6 +100,7 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
+            LEDLight.SetActive(false);
             Resistor.SetActive(true);
             Button.SetActive(false);
             Wire1.SetActive(false);
@@ -107,6 +112,7 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
+            LEDLight.SetActive(false);
             Resistor.SetActive(true);
             Button.SetActive(true);
             Wire1.SetActive(false);
@@ -118,6 +124,7 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
+            LEDLight.SetActive(false);
             Resistor.SetActive(true);
             Button.SetActive(true);
             Wire1.SetActive(true);
@@ -129,6 +136,7 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
+            LEDLight.SetActive(false);
             Resistor.SetActive(true);
             Button.SetActive(true);
             Wire1.SetActive(true);
@@ -140,6 +148,18 @@ public class ARController : MonoBehaviour
         {
             breadBoard.SetActive(true);
             LED.SetActive(true);
+            LEDLight.SetActive(false);
+            Resistor.SetActive(true);
+            Button.SetActive(true);
+            Wire1.SetActive(true);
+            Wire2.SetActive(true);
+            Wire3.SetActive(true);
+        }
+        else if (CurrentStep == 8)
+        {
+            breadBoard.SetActive(true);
+            LED.SetActive(true);
+            LEDLight.SetActive(true);
             Resistor.SetActive(true);
             Button.SetActive(true);
             Wire1.SetActive(true);
@@ -253,6 +273,10 @@ public class ARController : MonoBehaviour
                 Wire3.GetComponent<Animator>().SetTrigger("Play");
             }
         }
+        else if (CurrentStep == 8)
+        {
+            
+        }
     }
 
     public void nextStep()
@@ -318,15 +342,28 @@ public class ARController : MonoBehaviour
             AREndScreen.SetActive(true);
         }
         
+        else if (CurrentStep == 8)
+        {
+            
+        }
+
 
         PlayButtonText.text = "Play Step";
-        CurrentStep++;
+        if (CurrentStep <= 7)
+        {
+            CurrentStep++;
+        }
+        
 
     }
     public void PreviousStep()
     {
         PlayButtonText.text = "Play Step";
-        CurrentStep--;
+        if (CurrentStep >= 2)
+        {
+            CurrentStep--;
+        }
+        
 
 
         if (CurrentStep == 2)
@@ -360,6 +397,10 @@ public class ARController : MonoBehaviour
             Wire3.GetComponent<Animator>().SetTrigger("Replay");
             Wire3.GetComponent<Animator>().SetBool("Played", false);
             AREndScreen.SetActive(false);
+        }
+        else if (CurrentStep == 8)
+        {            
+            
         }
     }
 }
