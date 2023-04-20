@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ARController : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class ARController : MonoBehaviour
     private float CurrentStep = 1;
     bool GotComponents = false;
 
-    
+
     // the breadborad componats
+    GameObject scaleBaseObject;
     GameObject breadBoard;
     GameObject LED;
     GameObject LEDLight;
@@ -27,11 +29,14 @@ public class ARController : MonoBehaviour
     // the ui componants
     [SerializeField] TextMeshProUGUI PlayButtonText;
     [SerializeField] GameObject ARStartScreen;
-    [SerializeField] GameObject AREndScreen;
+    [SerializeField] GameObject TextArea;
+    [SerializeField] TextMeshProUGUI Titletext;
+    [SerializeField] TextMeshProUGUI InfoText;
+    [SerializeField] GameObject ScaleArea;
+    [SerializeField] Slider scaleSlider;
     private void Awake()
     {
         GotComponents = false;
-        AREndScreen.SetActive(false);
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -46,16 +51,21 @@ public class ARController : MonoBehaviour
             if (!GotComponents)
             {
                 ARStartScreen.SetActive(false);
+                TextArea.SetActive(true);
+                ScaleArea.SetActive(true);
                 GetComponants();
             }
             ContolARComponants();
-        }
+            ControlInfoText();
+            ScaleControl();
+        }        
     }
 
     void GetComponants()
     {
         GotComponents = true;
         breadBoard = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        scaleBaseObject = TrackedObject.transform.GetChild(0).gameObject;
         LED = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
         LEDLight = LED.transform.GetChild(0).gameObject;
         Resistor = TrackedObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject;
@@ -166,10 +176,56 @@ public class ARController : MonoBehaviour
             Wire2.SetActive(true);
             Wire3.SetActive(true);
         }
-
-
     }
 
+    void ControlInfoText()
+    {
+        if (CurrentStep == 1)
+        {
+            Titletext.text = "Step 1";
+            InfoText.text = "Move your phone slightly away from the breadboard so that you are able to see the virtual one. Then click Next Step.";
+        }
+        else if (CurrentStep == 2)
+        {
+            Titletext.text = "Step 2";
+            InfoText.text = "Place the LED into the breadborad. Pay attention to the orrientation. You want the longer prong which is the anode to be on the right and the shorter prong the cathode to be on the left.";
+        }
+        else if (CurrentStep == 3)
+        {
+            Titletext.text = "Step 3";
+            InfoText.text = "Next is to add the resistor, we want one of the prongs to be lined up with the cathode of the LED.";
+        }
+        else if (CurrentStep == 4)
+        {
+            Titletext.text = "Step 4";
+            InfoText.text = "Add in the button to bread board by placing it over the middle part of the breadboard.";
+        }
+        else if (CurrentStep == 5)
+        {
+            Titletext.text = "Step 5";
+            InfoText.text = "This wire is used to connect up the button to the LED.";
+        }
+        else if (CurrentStep == 6)
+        {
+            Titletext.text = "Step 6";
+            InfoText.text = "This wire is used to connect the resistor to the ground/neggative side of the breadboard.";
+        }
+        else if (CurrentStep == 7)
+        {
+            Titletext.text = "Step 7";
+            InfoText.text = "This wire connects the button to the possitive side of the breadboard completing the circuit.";
+        }
+        else if (CurrentStep == 8)
+        {
+            Titletext.text = "Step 8";
+            InfoText.text = "The circuit should now be completed, make sure the breadboard is powered and press the button to turn on the LED. If it did not work, go back through the steps to try and work out what went wrong.";
+        }
+    }
+
+    void ScaleControl()
+    {
+        scaleBaseObject.transform.localScale = new Vector3(scaleSlider.value, scaleSlider.value,scaleSlider.value);
+    }
     public void AnimationButton()
     {
         
@@ -339,7 +395,6 @@ public class ARController : MonoBehaviour
                 Wire3.GetComponent<Animator>().SetTrigger("Skipped");
                 Wire3.GetComponent<Animator>().SetBool("Played", true);
             }
-            AREndScreen.SetActive(true);
         }
         
         else if (CurrentStep == 8)
@@ -396,7 +451,6 @@ public class ARController : MonoBehaviour
         {
             Wire3.GetComponent<Animator>().SetTrigger("Replay");
             Wire3.GetComponent<Animator>().SetBool("Played", false);
-            AREndScreen.SetActive(false);
         }
         else if (CurrentStep == 8)
         {            
